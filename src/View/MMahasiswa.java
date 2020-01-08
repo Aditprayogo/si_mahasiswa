@@ -5,7 +5,9 @@
  */
 package View;
 
+import Controller.Controller_Mahasiswa;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
@@ -17,9 +19,14 @@ public class MMahasiswa extends javax.swing.JFrame {
     /**
      * Creates new form MMahasiswa
      */
+    
+    Controller_Mahasiswa controller;
+    
     public MMahasiswa() {
         initComponents();
         setLocationRelativeTo(this);
+        controller = new Controller_Mahasiswa(this);
+        controller.isiTable();
     }
 
     public JComboBox<String> getCboagama() {
@@ -28,6 +35,10 @@ public class MMahasiswa extends javax.swing.JFrame {
 
     public JTextField getTxtnama() {
         return txtnama;
+    }
+
+    public JTable getTblmhs() {
+        return tblmhs;
     }
 
     public JTextField getTxtnim() {
@@ -63,7 +74,7 @@ public class MMahasiswa extends javax.swing.JFrame {
         btnTambah = new javax.swing.JButton();
         btnBersih = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblmhs = new javax.swing.JTable();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -91,17 +102,43 @@ public class MMahasiswa extends javax.swing.JFrame {
 
         jLabel5.setText("Telepon :");
 
+        txtnim.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtnimKeyReleased(evt);
+            }
+        });
+
         cboagama.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Islam", "Kristen", "Katholik", "Hindu", "Budha" }));
 
         btnUbah.setText("Ubah");
+        btnUbah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUbahActionPerformed(evt);
+            }
+        });
 
         btnHapus.setText("Hapus");
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
 
         btnTambah.setText("Tambah");
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahActionPerformed(evt);
+            }
+        });
 
         btnBersih.setText("Bersih");
+        btnBersih.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBersihActionPerformed(evt);
+            }
+        });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblmhs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -112,7 +149,12 @@ public class MMahasiswa extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        tblmhs.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblmhsMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblmhs);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,7 +223,6 @@ public class MMahasiswa extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5)
                         .addComponent(txttelp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTambah)
                     .addComponent(btnUbah)
@@ -194,6 +235,42 @@ public class MMahasiswa extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+        // TODO add your handling code here:
+        controller.insert();
+        controller.isiTable();
+        controller.reset();
+    }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
+        // TODO add your handling code here:
+        controller.update();
+        controller.isiTable();
+        controller.reset();
+    }//GEN-LAST:event_btnUbahActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        // TODO add your handling code here:
+        controller.delete();
+        controller.isiTable();
+        controller.reset();
+    }//GEN-LAST:event_btnHapusActionPerformed
+
+    private void btnBersihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBersihActionPerformed
+        // TODO add your handling code here:
+        controller.reset();
+    }//GEN-LAST:event_btnBersihActionPerformed
+
+    private void tblmhsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblmhsMouseClicked
+        // TODO add your handling code here:
+        controller.isiField(tblmhs.getSelectedRow());
+    }//GEN-LAST:event_tblmhsMouseClicked
+
+    private void txtnimKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnimKeyReleased
+        // TODO add your handling code here:
+        controller.isiTableCari();
+    }//GEN-LAST:event_txtnimKeyReleased
 
     /**
      * @param args the command line arguments
@@ -244,7 +321,7 @@ public class MMahasiswa extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable tblmhs;
     private javax.swing.JTextField txtnama;
     private javax.swing.JTextField txtnim;
     private javax.swing.JTextField txttelp;
